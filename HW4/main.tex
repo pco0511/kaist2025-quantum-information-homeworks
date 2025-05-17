@@ -1,0 +1,115 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amssymb,amsthm, tikz,titlesec,hyperref,esint,braket, graphicx}
+\usepackage[a4paper,margin=2cm]{geometry}
+\linespread{1.3}
+\newtheorem{claim}{Claim}[section]
+
+\newcommand\name{Park Chanwoo}   % Name of the student
+\newcommand\university{KAIST} % Name of the university
+\newcommand\department{Physics} % Name of the department
+\newcommand\studentid{20230297} % Student ID
+\newcommand\s{\,\;}
+
+
+\newenvironment{solution}[1]
+  {\renewcommand\qedsymbol{$\square$}\begin{proof}[\textbf{Solution#1}]}
+  {\end{proof}}
+\newenvironment{note}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[\textnormal{\textbf{note}}]}
+  {\end{proof}}
+
+\title{KAIST\\2025 PH475 Quantum Information I\\
+Homework 1\bigskip}
+\author{\textbf{\Large \name} \\
+% University: \university\\
+Department: \department\\
+Student ID: \studentid}
+\date{\today}
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+\tableofcontents
+\titleformat{\section}[frame]{\pagebreak}{\filright
+\footnotesize  \enspace \textsf{KAIST --- PH475 Quantum Information I 2025 Spring}\enspace}{6pt}{\Large\bfseries\filcenter}
+
+\newcommand{\der}[2][]{\frac{d #1}{d #2}}
+\newcommand{\pder}[2][]{\frac{\partial #1}{\partial #2}}
+\newcommand{\grad}{\operatorname{grad}}
+\newcommand{\diver}{\operatorname{div}}
+\newcommand{\curl}{\operatorname{curl}}
+\newcommand{\tr}{\operatorname{tr}}
+
+\newcommand{\cnot}{C_{\text{NOT}}}
+\newcommand{\cz}{C_{Z}}
+
+\section{\#1}
+
+
+Let 
+\begin{equation}
+    \rho=\frac{1}{2}\left(I+\vec r\cdot\vec\sigma\right)=\frac{1}{2}\left(I + r_1\sigma_1+r_2\sigma_2+r_3\sigma_3\right)
+\end{equation}
+
+Note that(from the first homework of this semester)
+\begin{equation}
+    \sigma_i\sigma_j=\varepsilon_{ijk} i\sigma_k + \delta_{ij}I
+\end{equation}
+
+Since Pauli matrices are traceless, 
+\begin{equation}
+    \tr(\sigma_i\sigma_j) = \tr(\varepsilon_{ijk} i\sigma_k + \delta_{ij}I) = \varepsilon_{ijk} i\tr \sigma_k + \delta_{ij}\tr I = 2\delta_{ij}
+\end{equation}
+
+Hence for the Pauli operators $X=\sigma_1, Y=\sigma_2, Z=\sigma_3$,
+\begin{align}
+    \tr(\sigma_i\rho) 
+    &= \tr\left[\frac{1}{2}\left(\sigma_i+\sum_jr_j\sigma_i\sigma_j\right)\right]\\
+    &=\frac{1}{2}\left(\tr\sigma_i+\sum_jr_j\tr(\sigma_i\sigma_j)\right)\\
+    &=\frac{1}{2}\left(0+\sum_jr_j(2\delta_{ij})\right)\\
+    &=\sum_{j}r_j\delta_{ij}\\
+    &=r_i
+\end{align}
+
+Therefore,
+\begin{equation}
+    \vec{r}=\left(\tr(\rho X), \tr(\rho Y), \tr(\rho Z)\right)
+\end{equation}
+
+The condition $\tr\rho=1$ is already satisfied.
+\begin{align}
+    \tr\left(\frac{1}{2}\left(I + r_1\sigma_1+r_2\sigma_2+r_3\sigma_3\right)\right)
+    &=\frac{1}{2}\tr\left(I + r_1\sigma_1+r_2\sigma_2+r_3\sigma_3\right) \\
+    &=\frac{1}{2}\left(2 + r_1\cdot 0+r_2\cdot 0+r_3\cdot 0\right) \\
+    &=1
+\end{align}
+
+Let $\lambda_1$ and $\lambda_2$ be the eigenvalue of $\rho$ then,
+\begin{align}
+    \lambda_1 + \lambda_2 &= \tr\rho = 1\\
+    \lambda_1\lambda_2&=\det\rho\\
+    &=\frac{1}{4}\left((1+r_1)(1-r_1)-(r_2+ir_3)(r_2-ir_3)\right)\\
+    &=\frac{1}{4}(1-r_1^2-r_2^2-r_3^2)\\
+    &=\frac{1}{4}(1-|\vec r|^2)\\
+    &=\left(\frac{1-|\vec{r}|}{2}\right)\left(\frac{1+|\vec{r}|}{2}\right)
+\end{align}
+
+Hence the eigenvalues are
+\begin{equation}
+    \lambda=\frac{1}{2}(1\pm|\vec{r}|)
+\end{equation}
+
+For $\rho$ to be positive semi-definite, the eigenvalues must be non-negative. Hence,
+\begin{equation}
+   \frac{1}{2}(1\pm|\vec{r}|)\geq 0\Rightarrow |\vec{r}| \leq 1 
+\end{equation}
+
+The purity of the density matrix is defined by
+\begin{equation}
+    \tr\rho^2=\lambda_1^2+\lambda_2^2=\frac{1}{4}(1+|\vec r|)^2+\frac{1}{4}(1-|\vec r|)^2=\frac{1}{2}(1+|\vec r|^2)
+\end{equation}
+
+
+
+
+\end{document}

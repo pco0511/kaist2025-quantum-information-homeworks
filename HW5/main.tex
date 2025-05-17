@@ -1,0 +1,172 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amssymb,amsthm, tikz,titlesec,hyperref,esint,braket, graphicx, mathtools}
+\usepackage[a4paper,margin=2cm]{geometry}
+\linespread{1.3}
+\newtheorem{claim}{Claim}[section]
+
+\newcommand\name{Park Chanwoo}   % Name of the student
+\newcommand\university{KAIST} % Name of the university
+\newcommand\department{Physics} % Name of the department
+\newcommand\studentid{20230297} % Student ID
+\newcommand\s{\,\;}
+
+
+\newenvironment{solution}[1]
+  {\renewcommand\qedsymbol{$\square$}\begin{proof}[\textbf{Solution#1}]}
+  {\end{proof}}
+\newenvironment{note}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[\textnormal{\textbf{note}}]}
+  {\end{proof}}
+
+\title{KAIST\\2025 PH475 Quantum Information I\\
+Homework 5\bigskip}
+\author{\textbf{\Large \name} \\
+% University: \university\\
+Department: \department\\
+Student ID: \studentid}
+\date{\today}
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+\tableofcontents
+\titleformat{\section}[frame]{\pagebreak}{\filright
+\footnotesize  \enspace \textsf{KAIST --- PH475 Quantum Information I 2025 Spring}\enspace}{6pt}{\Large\bfseries\filcenter}
+
+\newcommand{\der}[2][]{\frac{d #1}{d #2}}
+\newcommand{\pder}[2][]{\frac{\partial #1}{\partial #2}}
+\newcommand{\grad}{\operatorname{grad}}
+\newcommand{\diver}{\operatorname{div}}
+\newcommand{\curl}{\operatorname{curl}}
+\newcommand{\tr}{\operatorname{tr}}
+
+\newcommand{\cnot}{C_{\text{NOT}}}
+\newcommand{\cz}{C_{Z}}
+
+\section{\#1}
+Let's define two operators:
+\begin{equation}
+    M_0=\begin{pmatrix}
+        \cos 2\theta & 0 \\
+        0 & \sin 2\theta
+    \end{pmatrix},
+    \quad
+    M_1=\begin{pmatrix}
+        0 & \cos 2\theta \\
+        \sin 2\theta & 0
+    \end{pmatrix}
+\end{equation}
+
+Construct the following operators:
+\begin{equation}
+    E_0=M_0^\dagger M_0=\begin{pmatrix}
+        \cos^22\theta & 0 \\
+        0 & \sin^2 2\theta
+    \end{pmatrix},\quad
+    E_1=M_1^\dagger M_1=\begin{pmatrix}
+        \sin^2 2\theta & 0 \\
+        0 & \cos^22\theta
+    \end{pmatrix}
+\end{equation}
+Since $E_1$ and $E_2$ have non-negative eigenvalues, $\cos^2 2\theta$ and $\sin^2 2\theta$, $E_1$ and $E_2$ are positive semi-definite: $E_1\geq 0$ and $E_2\geq 0$. And, $E_1=E_2=(\cos^2 2\theta +\sin^2 2\theta)I=I$. Hence the set $\{E_1, E_2\}$ is a POVM.
+
+\section{\#2}
+
+The condition
+\begin{equation}
+    E_0 + E_1+E_2 = E_0 + E_1 + I - E_0 - E_2 = I
+\end{equation}
+is already satisfied.
+
+The set $\{E_0, E_1, E_2\}$ is a POVM if and only if
+\begin{equation}
+    E_0=p\ket{1}\bra{1}\ge 0, \quad
+    E_1=p\ket{-}\bra{-}\ge 0, \quad
+    E_2=I-E_0-E_1=\begin{pmatrix}
+        1 -\frac{1}{2}p& \frac{1}{2}p\\
+        \frac{1}{2}p & 1 - \frac{3}{2}p
+    \end{pmatrix}\ge 0
+\end{equation}
+
+The eigenpairs of $\{E_0, E_1, E_2\}$ are:
+\begin{align}
+    E_0:&(p,\ket{0}),\, (0,\ket{1})\\
+    E_1:&(p,\ket{-}),\, (0,\ket{+})\\
+    E_2:&\left(1-\left(1-1/\sqrt{2}\right)p, \cos(\pi/8)\ket{0} + \sin(\pi/8)\ket{1}\right),\\
+        &\left(1-\left(1+1/\sqrt{2}\right)p, \sin(\pi/8)\ket{0} - \cos(\pi/8)\ket{1}\right)
+\end{align}
+Since $E_2=(1-p)I + \frac{p}{\sqrt{2}}H$, I brought the eigenpairs of $H$ from HW2.
+
+For $E_0$, $E_1$, and $E_2$ to be positive semi-definite, 
+\begin{equation}
+    p\ge 0, 1-\left(1-1/\sqrt{2}\right)p\ge0, 1-\left(1+1/\sqrt{2}\right)p\ge0
+\end{equation}
+
+Hence the condition of $p$ that make the set $\{E_0, E_1, E_2\}$ be a POVM is
+\begin{equation}
+    0\le p \le \frac{\sqrt{2}}{1+\sqrt{2}}
+\end{equation}
+
+Hence, the maximum $p$ is $\frac{\sqrt{2}}{1+\sqrt{2}}$.
+
+\section{\#3}
+
+Let $\mathcal H_S$ and $\mathcal H_E$ be the Hilbert space of the system and environment respectively. Let $\rho_{SE}$ be a density operator on the Hilbert space $\mathcal H_{SE}=\mathcal H_S\otimes\mathcal H_E$. Let $\mathcal E:\rho\mapsto\sum_m K_m\rho K_m^\dagger$ be a quantum channel defined by operator-sum notation. where $K_m:\mathcal H_S\rightarrow \mathcal H_S$ be the Kraus operators.
+
+The channel $\mathcal E\otimes \mathcal I_E$ is positive if and only if $(\mathcal E\otimes \mathcal I_E)[\rho_{SE}]$ is positive semi-definite for arbitrary $\rho_{SE}$. Then,
+\begin{align}
+    (\mathcal E\otimes \mathcal I_E)[\rho_{SE}]
+    &= (\mathcal E\otimes \mathcal I_E)\left[\sum_{i,j,k,l}\rho_{kl}^{ij}\ket{i}_S\ket{j}_E\bra{k}_S\bra{l}_E\right]\\
+    &= (\mathcal E\otimes \mathcal I_E)\left[\sum_{i,j,k,l}\rho_{kl}^{ij}\ket{i} \bra{k}_S\otimes\ket{j}\bra{l}_E\right]\\
+    &=\sum_{i,j,k,l}\rho_{kl}^{ij}(\mathcal E\otimes \mathcal I_E)\left[\ket{i} \bra{k}_S\otimes\ket{j}\bra{l}_E\right]\\
+    &=\sum_{i,j,k,l}\rho_{kl}^{ij}\mathcal E[\ket{i} \bra{k}_S]\otimes \mathcal I_E[\ket{j}\bra{l}_E]\\
+    &=\sum_{i,j,k,l}\rho_{kl}^{ij}\left(\sum_m K_m\ket{i} \bra{k}_SK_m^\dagger\right)\otimes I_E\ket{j}\bra{l}_E I_E\\
+    &=\sum_m\sum_{i,j,k,l}\rho_{kl}^{ij}K_m\ket{i} \bra{k}_SK_m^\dagger\otimes I_E\ket{j}\bra{l}_E I_E\\
+    &=\sum_m (K_m\otimes I_E)\left(\sum_{i,j,k,l}\rho_{kl}^{ij}\ket{i}_S\ket{j}_E\bra{k}_S\bra{l}_E\right) (K_m\otimes I_E)^\dagger\\
+    &=\sum_m (K_m\otimes I_E)\rho_{SE} (K_m\otimes I_E)^\dagger
+\end{align}
+
+To ensure the positive semi-definiteness of $(\mathcal E\otimes \mathcal I_E)[\rho_{SE}]$, apply the bra and ket to the left and right of the density matrix after the channel.
+\begin{align}
+    \bra{\psi}(\mathcal E\otimes \mathcal I_E)[\rho_{SE}]\ket{\psi}
+    &=\bra{\psi}\sum_m (K_m\otimes I_E)\rho_{SE} (K_m\otimes I_E)^\dagger\ket{\psi}\\
+    &=\sum_m \bra{\psi}(K_m\otimes I_E)\rho_{SE} (K_m\otimes I_E)^\dagger\ket{\psi}
+\end{align}
+Let $\ket{\phi_m}=(K_m\otimes I_E)^\dagger\ket{\psi}$. Then,
+\begin{equation}
+    \bra{\psi}(\mathcal E\otimes \mathcal I_E)[\rho_{SE}]\ket{\psi}
+    =\sum_m \bra{\phi_m}\rho_{SE}\ket{\phi_m}
+\end{equation}
+And each $\bra{\phi_m}\rho_{SE}\ket{\phi_m}$ are non negative since $\rho_{SE}$ is positive semi-definite. Hence, $(\mathcal E\otimes \mathcal I_E)[\rho_{SE}]$ is a positive semi-definite operator and the channel $\mathcal E$ is completely positive.
+
+
+\section{\#4}
+
+By the definitions,
+\begin{gather}
+    M_0=\frac{1}{2}E_0-\frac{i}{2}E_1+\frac{i}{2}E_2+\frac{1}{2}E_3\\
+    M_1=\frac{1}{2}E_0+\frac{i}{2}E_1-\frac{i}{2}E_2+\frac{1}{2}E_3
+\end{gather}
+
+The transformation between operator sum representation and the quantum process matrix is:
+\begin{align}
+    \mathcal E[\rho]
+    &=\sum_{k}K_k\rho K_k^\dagger\\
+    &=\left(\sum_{p}(K_k)_p E_{p}\right)\rho\left(\sum_{q}(K_k)_q^*E_{q}^\dagger\right)\\
+    &=\sum_{p, q}\left(\sum_{k}(K_k)_p(K_k)_q^*\right)E_p\rho E_q^\dagger
+\end{align}
+\begin{equation}
+    \chi_{pq}=\sum_{k}(K_k)_p(K_k)_q^*
+\end{equation}
+Hence,
+\begin{equation}
+    \chi=\frac{1}{2}\begin{pmatrix}
+        1 &  0 &  0 & 1 \\
+        0 &  1 & -1 & 0 \\
+        0 & -1 &  1 & 0 \\
+        1 &  0 &  0 & 1
+    \end{pmatrix}
+\end{equation}
+
+
+\end{document}

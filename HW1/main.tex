@@ -1,0 +1,121 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amssymb,amsthm, tikz,titlesec,hyperref,esint,braket, graphicx}
+\usepackage[a4paper,margin=2cm]{geometry}
+\linespread{1.3}
+\newtheorem{claim}{Claim}[section]
+
+\newcommand\name{Park Chanwoo}   % Name of the student
+\newcommand\university{KAIST} % Name of the university
+\newcommand\department{Physics} % Name of the department
+\newcommand\studentid{20230297} % Student ID
+\newcommand\s{\,\;}
+
+
+\newenvironment{solution}[1]
+  {\renewcommand\qedsymbol{$\square$}\begin{proof}[\textbf{Solution#1}]}
+  {\end{proof}}
+\newenvironment{note}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[\textnormal{\textbf{note}}]}
+  {\end{proof}}
+
+\title{KAIST\\2025 PH475 Quantum Information I\\
+Homework 1\bigskip}
+\author{\textbf{\Large \name} \\
+% University: \university\\
+Department: \department\\
+Student ID: \studentid}
+\date{\today}
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+\tableofcontents
+\titleformat{\section}[frame]{\pagebreak}{\filright
+\footnotesize  \enspace \textsf{KAIST --- PH475 Quantum Information I 2025 Spring}\enspace}{6pt}{\Large\bfseries\filcenter}
+
+\newcommand{\der}[2][]{\frac{d #1}{d #2}}
+\newcommand{\pder}[2][]{\frac{\partial #1}{\partial #2}}
+\newcommand{\grad}{\operatorname{grad}}
+\newcommand{\diver}{\operatorname{div}}
+\newcommand{\curl}{\operatorname{curl}}
+
+
+
+\section{\#1}
+
+\begin{solution}{}
+    \begin{equation}
+        \sigma_1 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \quad
+        \sigma_2 = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \quad
+        \sigma_3 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+    \end{equation}
+    
+    \begin{gather}
+        \sigma_1\sigma_1 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}^2 
+        = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I, \\
+        \sigma_1\sigma_2 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}
+        \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix} 
+        = \begin{pmatrix} i & 0 \\ 0 & -i \end{pmatrix} = i\sigma_3, \\
+        \sigma_1\sigma_3 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}
+        \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} 
+        = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix} = -\,i\sigma_2, \\
+        \sigma_2\sigma_1 = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}
+        \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} 
+        = \begin{pmatrix} -i & 0 \\ 0 & i \end{pmatrix} = -\,i\sigma_3, \\
+        \sigma_2\sigma_2 = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}^2 
+        = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I, \\
+        \sigma_2\sigma_3 = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}
+        \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} 
+        = \begin{pmatrix} 0 & i \\ i & 0 \end{pmatrix} = i\sigma_1, \\
+        \sigma_3\sigma_1 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+        \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} 
+        = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix} = i\sigma_2, \\
+        \sigma_3\sigma_2 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+        \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix} 
+        = \begin{pmatrix} 0 & -i \\ -i & 0 \end{pmatrix} = -\,i\sigma_1, \\
+        \sigma_3\sigma_3 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}^2 
+        = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I.
+    \end{gather}
+    
+    Hence,
+    \begin{equation}
+        \sigma_i\sigma_j=\varepsilon_{ijk} i\sigma_k + \delta_{ij}I
+    \end{equation}
+    
+    The commutators and anti-commutators are
+    \begin{equation}
+        [\sigma_i, \sigma_j]=\sigma_i\sigma_j-\sigma_j\sigma_i=\varepsilon_{ijk} i\sigma_k - \varepsilon_{jik} i\sigma_k + \delta_{ij}I - \delta_{ji}I=\varepsilon_{ijk} i\sigma_k + \varepsilon_{ijk} i\sigma_k + 0 = 2\varepsilon_{ijk} i\sigma_k
+    \end{equation}
+    and
+    \begin{equation}
+        \{\sigma_i, \sigma_j\}=\sigma_i\sigma_j+\sigma_j\sigma_i=\varepsilon_{ijk} i\sigma_k + \varepsilon_{jik} i\sigma_k + \delta_{ij}I + \delta{ij}I = \varepsilon_{ijk} i\sigma_k - \varepsilon_{ijk} i\sigma_k + 2\delta_{ij}I= 2 \delta_{ij}
+    \end{equation}
+    Therefore,
+    \begin{equation}
+        [\sigma_i, \sigma_j] = 2\varepsilon_{ijk} i\sigma_k,\quad \{\sigma_i, \sigma_j\}=2\delta_{ij}I
+    \end{equation}
+\end{solution}
+
+\section{\#2}
+
+\begin{solution}{}
+    Assume $\|\mathbf n\| = 1$. Then,
+    \begin{align}
+        \left(\mathbf n\cdot\mathbf\sigma\right)^2&=n_1^2\sigma_1^2 + n_2^2\sigma_2^2 + n_3^2\sigma_3^2 + n_1n_2\{\sigma_1,\sigma_2\} + n_2n_3\{\sigma_2,\sigma_3\} + n_3n_1\{\sigma_3,\sigma_1\}\\
+        &=(n_1^2+n_2^2+n_3^2) I\\
+        &=I
+    \end{align}
+
+    By definition,
+    \begin{align}
+        R_{\mathbf n}(\phi)&=\exp\left(-i\frac{\phi}{2}\mathbf n\cdot\mathbf\sigma\right)\\
+        &=\sum_{j=0}^{\infty} \frac{1}{j!}\left(-i\frac{\phi}{2}\right)^j\left(\mathbf n\cdot\mathbf\sigma\right)^j \\
+        &=\sum_{j=0}^{\infty} \frac{1}{(2j)!}\left(-i\frac{\phi}{2}\right)^{2j}\left(\mathbf n\cdot\mathbf\sigma\right)^{2j} + \sum_{j=0}^{\infty} \frac{1}{(2j + 1)!}\left(-i\frac{\phi}{2}\right)^{2j+1}\left(\mathbf n\cdot\mathbf\sigma\right)^{2j+1} \\
+        &=\sum_{j=0}^{\infty} \frac{(-1)^j}{(2j)!}\left(\frac{\phi}{2}\right)^{2j}I^{j} - i\sum_{j=0}^{\infty} \frac{(-1)^j}{(2j + 1)!}\left(\frac{\phi}{2}\right)^{2j+1}\left(\mathbf n\cdot\mathbf\sigma\right) I^j\\
+        &=\cos(\phi/2)I -g i\sin(\phi/2)\mathbf n\cdot\mathbf\sigma
+    \end{align}
+    
+    
+\end{solution}
+
+\end{document}

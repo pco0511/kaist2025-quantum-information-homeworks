@@ -1,0 +1,234 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amssymb,amsthm, tikz,titlesec,hyperref,esint,braket, graphicx, mathtools}
+\usepackage[a4paper,margin=2cm]{geometry}
+\linespread{1.3}
+\newtheorem{claim}{Claim}[section]
+
+\newcommand\name{Park Chanwoo}   % Name of the student
+\newcommand\university{KAIST} % Name of the university
+\newcommand\department{Physics} % Name of the department
+\newcommand\studentid{20230297} % Student ID
+\newcommand\s{\,\;}
+
+
+\newenvironment{solution}[1]
+  {\renewcommand\qedsymbol{$\square$}\begin{proof}[\textbf{Solution#1}]}
+  {\end{proof}}
+\newenvironment{note}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[\textnormal{\textbf{note}}]}
+  {\end{proof}}
+
+\title{KAIST\\2025 PH475 Quantum Information I\\
+Homework 5\bigskip}
+\author{\textbf{\Large \name} \\
+% University: \university\\
+Department: \department\\
+Student ID: \studentid}
+\date{\today}
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+\tableofcontents
+\titleformat{\section}[frame]{\pagebreak}{\filright
+\footnotesize  \enspace \textsf{KAIST --- PH475 Quantum Information I 2025 Spring}\enspace}{6pt}{\Large\bfseries\filcenter}
+
+\newcommand{\der}[2][]{\frac{d #1}{d #2}}
+\newcommand{\pder}[2][]{\frac{\partial #1}{\partial #2}}
+\newcommand{\grad}{\operatorname{grad}}
+\newcommand{\diver}{\operatorname{div}}
+\newcommand{\curl}{\operatorname{curl}}
+\newcommand{\tr}{\operatorname{tr}}
+
+\newcommand{\cnot}{C_{\text{NOT}}}
+\newcommand{\cz}{C_{Z}}
+
+\section{\#1}
+
+The bell state is defined by:
+\begin{equation}
+    \ket{\Psi^-}_{AB}=\frac{1}{\sqrt 2}\left(\ket{0}_A\ket{1}_B-\ket{1}_A\ket{0}_B\right)
+\end{equation}
+
+Hence, the density matrix of the pure Bell state in computational basis, $\{\ket{00}, \ket{01}, \ket{10}, \ket{11}\}$:
+\begin{align}
+    \rho_{AB}
+    &=\ket{\Psi^-}_{AB}\bra{\Psi^-}_{AB} \\
+    &=\frac{1}{2}\left(\ket{0}_A\ket{1}_B\bra{0}_A\bra{1}_B-\ket{0}_A\ket{1}_B\bra{1}_A\bra{0}_B-\ket{1}_A\ket{0}_B\bra{0}_A\bra{1}_B+\ket{1}_A\ket{0}_B\bra{1}_A\bra{0}_B\right)\\
+    &=\frac12\begin{pmatrix}
+        0 &  0 &  0 & 0 \\
+        0 &  1 & -1 & 0 \\
+        0 & -1 &  1 & 0 \\
+        0 &  0 &  0 & 0
+    \end{pmatrix} \\
+    &=\frac14\begin{pmatrix}
+        1 &  0 &  0 & 0 \\
+        0 &  1 &  0 & 0 \\
+        0 &  0 &  1 & 0 \\
+        0 &  0 &  0 & 1
+    \end{pmatrix}
+    - \frac14\begin{pmatrix}
+        0 & 0 & 0 & 1 \\
+        0 & 0 & 1 & 0 \\
+        0 & 1 & 0 & 0 \\
+        1 & 0 & 0 & 0
+    \end{pmatrix}
+    - \frac14\begin{pmatrix}
+         0 & 0 & 0 & -1 \\
+         0 & 0 & 1 &  0 \\
+         0 & 1 & 0 &  0 \\
+        -1 & 0 & 0 &  0
+    \end{pmatrix}
+    - \frac14\begin{pmatrix}
+        1 &  0 &  0 & 0 \\
+        0 & -1 &  0 & 0 \\
+        0 &  0 & -1 & 0 \\
+        0 &  0 &  0 & 1
+    \end{pmatrix}\\
+    &=\frac{1}{4}\left(I\otimes I - X\otimes X - Y\otimes Y - Z\otimes Z\right)
+\end{align}
+
+The given expectation is 
+
+\begin{align}
+    \bra{\Psi^-}(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)\ket{\Psi^-}
+    &= \tr[\rho_{AB}(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)] \\
+    &= \frac{1}{4}\tr[(I\otimes I)(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)] -\frac{1}{4}\tr[(X\otimes X)(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)] \\
+    &\quad -\frac{1}{4}\tr[(Y\otimes Y)(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)]-\frac{1}{4}\tr[(Z\otimes Z)(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)]\\
+    &=\frac{1}{4}\tr[(I\otimes I)(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)]-\frac{1}{4}\sum_{j=1}^3\tr[(\sigma_j\otimes\sigma_j)(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)]\\
+    &=\frac{1}{4}\tr[(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)]-\frac{1}{4}\sum_{j=1}^3\tr[\sigma_j(\mathbf n\cdot\vec \sigma)\otimes \sigma_j(\mathbf n\cdot\vec \sigma)]\\
+    &=\frac{1}{4}\tr[\mathbf n\cdot\vec \sigma]^2-\frac{1}{4}\sum_{j=1}^3\tr[\sigma_j(\mathbf n\cdot\vec \sigma)]^2\\
+    &=\frac{1}{4} 0^2-\frac{1}{4}\sum_{j=1}^3(2 n_j)^2\\
+    &=-\|\mathbf n\|
+\end{align}
+
+If $\mathbf n$ is a unit vector,
+\begin{equation}
+    \bra{\Psi^-}(\mathbf n\cdot\vec \sigma)\otimes (\mathbf n\cdot\vec \sigma)\ket{\Psi^-}=-1
+\end{equation}
+
+\section{\#2}
+
+\begin{note}
+    Relation between Schmidt decomposition and singular value decomposition.
+
+    Let $\ket\psi=\sum_{x\in\{0, 1\}^2} M_x\ket{x}$.
+    Then the singular value decomposition exists:
+    \begin{equation}
+        \begin{pmatrix}
+            M_{00} & M_{01} \\
+            M_{10} & M_{11}
+        \end{pmatrix}=
+        \sigma_0 \mathbf u_0\mathbf v_0^\dagger + \sigma_1 \mathbf u_1\mathbf v_1^\dagger \,\Leftrightarrow\, M_{ij}=\sigma_0(\mathbf u_0)_i(\mathbf v_0)_j+\sigma_1(\mathbf u_1)_i(\mathbf v_1)_j
+    \end{equation}
+    Where $\sigma_0, \sigma_1$ are positive, $\{\mathbf u_0, \mathbf u_1\}\subset\mathbb C^{1\times2}$, and $\{\mathbf v_0, \mathbf v_1\}\subset\mathbb C^{1\times2}$ are orthonormal vectors.
+    
+    Let
+    \begin{equation}
+        \ket{\mathbf u_j}=(\mathbf u_j)_0\ket{0}+(\mathbf u_j)_1\ket{1},\quad \ket{\mathbf v_j}=(\mathbf v_j)_0\ket{0}+(\mathbf v_j)_1\ket{1}\label{eqn:uvket}
+    \end{equation}
+
+    Then,
+    \begin{align}
+        \ket\psi
+        &= \sum_{j, k\in\{0, 1\}}(M_{jk})\ket{j}\ket{k}\\
+        &= \sum_{j, k\in\{0, 1\}}\sum_{i=0}^1\sigma_i(\mathbf u_i)_j(\mathbf v_i)_k\ket{j}\ket{k}\\
+        &= \sum_{i=0}^1\sigma_i\left(\sum_{j\in\{0, 1\}}(\mathbf u_i)_j\ket{j}\right)\left(\sum_{k\in\{0, 1\}}(\mathbf v_i)_k\ket{k}\right)\\
+        &=\sigma_0\ket{\mathbf u_0}\ket{\mathbf v_0}+\sigma_1\ket{\mathbf u_1}\ket{\mathbf v_1}
+    \end{align}
+\end{note}
+
+
+In computational basis, $\{\ket{00}:=\ket{0}_A\ket{0}_B, \ket{00}:=\ket{0}_A\ket{0}_B, \ket{11}:=\ket{1}_A\ket{1}_B, \ket{11}:=\ket{1}_A\ket{1}_B\}$,
+\begin{equation}
+    \ket{\Psi^{(1)}}_{AB}
+    =\frac{1}{2\sqrt2}\left(\sqrt{2}\ket{00}+(\sqrt{2}+1)\ket{01}+\ket{10}\right)
+\end{equation}
+Let
+\begin{align}
+    M^{(1)}=\frac{1}{2\sqrt2}\begin{pmatrix}
+        \sqrt{2} & \sqrt{2} + 1 \\
+        1 & 0
+    \end{pmatrix}
+\end{align}
+Then the singular value decomposition is
+\begin{equation}
+    M^{(1)}=\sigma_0\mathbf u_0\mathbf v_0^\dagger+\sigma_1\mathbf u_1\mathbf v_1^\dagger
+\end{equation}
+Where
+\begin{gather}
+    \sigma_0=\frac{\sqrt{2 \sqrt{2} + 6 + 4 \sqrt{\sqrt{2} + 2}}}{4}, \quad \sigma_1=\frac{\sqrt{- 4 \sqrt{\sqrt{2} + 2} + 2 \sqrt{2} + 6}}{4}, \\
+    \mathbf u_0=\begin{pmatrix}\frac{- 2 \sqrt{2} \sqrt{\sqrt{2} + 2} - \sqrt{2} + 4 + 4 \sqrt{\sqrt{2} + 2}}{2 \sqrt{- 9 \sqrt{2} \sqrt{\sqrt{2} + 2} - 6 \sqrt{2} + 12 + 14 \sqrt{\sqrt{2} + 2}}}\\\frac{- \sqrt{2 \sqrt{2} + 4} - \sqrt{2} + 1 + 2 \sqrt{\sqrt{2} + 2}}{\sqrt{\left(- 2 \sqrt{\sqrt{2} + 2} - 1 + \sqrt{2} + \sqrt{2} \sqrt{\sqrt{2} + 2}\right)^{2} + 1} \sqrt{\sqrt{2} + 3 + 2 \sqrt{\sqrt{2} + 2}}}\end{pmatrix},\\
+    \mathbf u_1=\begin{pmatrix}\frac{- 4 \sqrt{\sqrt{2} + 2} - \sqrt{2} + 4 + 2 \sqrt{2} \sqrt{\sqrt{2} + 2}}{2 \sqrt{- 14 \sqrt{\sqrt{2} + 2} - 6 \sqrt{2} + 12 + 9 \sqrt{2} \sqrt{\sqrt{2} + 2}}}\\\frac{- 2 \sqrt{\sqrt{2} + 2} - \sqrt{2} + 1 + \sqrt{2 \sqrt{2} + 4}}{\sqrt{1 + \left(- 2 \sqrt{\sqrt{2} + 2} - \sqrt{2} + 1 + \sqrt{2} \sqrt{\sqrt{2} + 2}\right)^{2}} \sqrt{- 2 \sqrt{\sqrt{2} + 2} + \sqrt{2} + 3}}\end{pmatrix}\\
+    \mathbf v_0 = \begin{pmatrix}\frac{- \sqrt{2 \sqrt{2} + 4} - \sqrt{2} + 1 + 2 \sqrt{\sqrt{2} + 2}}{\sqrt{\left(- 2 \sqrt{\sqrt{2} + 2} - 1 + \sqrt{2} + \sqrt{2} \sqrt{\sqrt{2} + 2}\right)^{2} + 1}}\\\frac{1}{\sqrt{\left(- 2 \sqrt{\sqrt{2} + 2} - 1 + \sqrt{2} + \sqrt{2} \sqrt{\sqrt{2} + 2}\right)^{2} + 1}}\end{pmatrix}\\
+    \mathbf v_1 = \begin{pmatrix}\frac{- 2 \sqrt{\sqrt{2} + 2} - \sqrt{2} + 1 + \sqrt{2 \sqrt{2} + 4}}{\sqrt{1 + \left(- 2 \sqrt{\sqrt{2} + 2} - \sqrt{2} + 1 + \sqrt{2} \sqrt{\sqrt{2} + 2}\right)^{2}}}\\\frac{1}{\sqrt{1 + \left(- 2 \sqrt{\sqrt{2} + 2} - \sqrt{2} + 1 + \sqrt{2} \sqrt{\sqrt{2} + 2}\right)^{2}}}\end{pmatrix}
+\end{gather}
+
+and the Schmidt decomposition is
+\begin{equation}
+    \ket{\Psi^{(1)}}_{AB}=\sigma_0\ket{\mathbf u_0}\ket{\mathbf v_0} + \sigma_1\ket{\mathbf u_1}\ket{\mathbf v_1}
+\end{equation}
+The definitions of $\ket{\mathbf u_j}$ and $\ket{\mathbf v_j}$ are the same as those in Equation.~\ref{eqn:uvket}.
+
+\begin{equation}
+    \ket{\Psi^{(2)}}_{AB}
+    =\frac{1}{\sqrt{3}}\left(\ket{00}+\ket{01}+\ket{10}\right)
+\end{equation}
+Let
+\begin{align}
+    M^{(2)}=\frac{1}{\sqrt3}\begin{pmatrix}
+        1 & 1 \\
+        1 & 0
+    \end{pmatrix}.
+\end{align}
+
+Since $M^{(2)}$ is symmetric, the spectral decomposition is available:
+\begin{equation}
+    M^{(2)} = \sigma_0 \mathbf v_0\mathbf v_0^\dagger + \sigma_1 \mathbf v_1\mathbf v_1^\dagger
+\end{equation}
+Where
+\begin{gather}
+    \sigma_0=\sqrt{\frac{3+\sqrt{5}}{6}}, \sigma_1=\sqrt{\frac{3-\sqrt{5}}{6}} \\
+    \mathbf v_0 = \frac{1}{\sqrt{4+(1+\sqrt{5})^2}}\begin{pmatrix}
+        1+\sqrt{5} \\
+        2
+    \end{pmatrix}\\
+    \mathbf v_1 = \frac{1}{\sqrt{4+(1-\sqrt{5})^2}}\begin{pmatrix}
+        1-\sqrt{5} \\
+        2
+    \end{pmatrix}
+\end{gather}
+The Schmidt decomposition is
+\begin{equation}
+    \ket{\Psi^{(1)}}_{AB}=\sigma_0\ket{\mathbf v_0}\ket{\mathbf v_0} + \sigma_1\ket{\mathbf v_1}\ket{\mathbf v_1}
+\end{equation}
+
+\section{\#3}
+
+\begin{align}
+    (I\otimes X)\ket{\Psi^-}_{AB}
+    &=\frac{1}{\sqrt 2}\left((I\otimes X)\ket{0}_A\ket{1}_B-(I\otimes X)\ket{1}_A\ket{0}_B\right) \\
+    &=\frac{1}{\sqrt 2}\left(\ket{0}_A\ket{0}_B-\ket{1}_A\ket{1}_B\right)\\
+    &=\ket{\Phi^-}_{AB}
+\end{align}
+
+\begin{align}
+    (I\otimes (-Z))\ket{\Psi^-}_{AB}
+    &=\frac{1}{\sqrt 2}\left((I\otimes (-Z))\ket{0}_A\ket{1}_B-(I\otimes (-Z))\ket{1}_A\ket{0}_B\right) \\
+    &=\frac{1}{\sqrt 2}\left(\ket{0}_A\ket{1}_B+\ket{1}_A\ket{0}_B\right)\\
+    &=\ket{\Psi^+}_{AB}
+\end{align}
+
+\begin{align}
+    (I\otimes (-XZ))\ket{\Psi^-}_{AB}
+    &=\frac{1}{\sqrt 2}\left((I\otimes (-XZ))\ket{0}_A\ket{1}_B-(I\otimes (-XZ))\ket{1}_A\ket{0}_B\right) \\
+    &=\frac{1}{\sqrt 2}\left(\ket{0}_A\ket{0}_B+\ket{1}_A\ket{1}_B\right)\\
+    &=\ket{\Phi^+}_{AB}
+\end{align}
+
+Hence,
+\begin{equation}
+    U_1=X,\quad U_2=-Z,\quad U_3=-XZ=iY
+\end{equation}
+
+\end{document}

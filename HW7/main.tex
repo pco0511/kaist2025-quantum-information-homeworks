@@ -1,0 +1,86 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amssymb,amsthm, tikz,titlesec,hyperref,esint,braket, graphicx, mathtools}
+\usepackage[a4paper,margin=2cm]{geometry}
+\linespread{1.3}
+\newtheorem{claim}{Claim}[section]
+
+\newcommand\name{Park Chanwoo}   % Name of the student
+\newcommand\university{KAIST} % Name of the university
+\newcommand\department{Physics} % Name of the department
+\newcommand\studentid{20230297} % Student ID
+\newcommand\s{\,\;}
+
+
+\newenvironment{solution}[1]
+  {\renewcommand\qedsymbol{$\square$}\begin{proof}[\textbf{Solution#1}]}
+  {\end{proof}}
+\newenvironment{note}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[\textnormal{\textbf{note}}]}
+  {\end{proof}}
+
+\title{KAIST\\2025 PH475 Quantum Information I\\
+Homework 7\bigskip}
+\author{\textbf{\Large \name} \\
+% University: \university\\
+Department: \department\\
+Student ID: \studentid}
+\date{\today}
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+\tableofcontents
+\titleformat{\section}[frame]{\pagebreak}{\filright
+\footnotesize  \enspace \textsf{KAIST --- PH475 Quantum Information I 2025 Spring}\enspace}{6pt}{\Large\bfseries\filcenter}
+
+\newcommand{\der}[2][]{\frac{d #1}{d #2}}
+\newcommand{\pder}[2][]{\frac{\partial #1}{\partial #2}}
+\newcommand{\grad}{\operatorname{grad}}
+\newcommand{\diver}{\operatorname{div}}
+\newcommand{\curl}{\operatorname{curl}}
+\newcommand{\tr}{\operatorname{tr}}
+
+\newcommand{\cnot}{C_{\text{NOT}}}
+\newcommand{\cz}{C_{Z}}
+
+\section{\#1}
+
+Let $\rho = p\ket{\Psi^-}_{AB}\bra{\Psi^-} + (1-p)\ket{\Psi^+}_{AB}\bra{\Psi^+}$. Then the matrix representation under the basis $\{\ket{00}, \ket{01}, \ket{10}, \ket{11}\}$ is
+\begin{equation}
+    \rho = \frac{1}{2}\begin{pmatrix}
+        0 & 0 & 0 & 0 \\
+        0 & 1 & 1-2p & 0 \\
+        0 & 1-2p & 1 & 0 \\
+        0 & 0 & 0 & 0 \\
+    \end{pmatrix}
+\end{equation}
+
+The partial transpose to the first qubit is
+\begin{equation}
+    \rho^{\top_1} = \frac{1}{2}\begin{pmatrix}
+        0 & 0 & 0 & 1-2p \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        1-2p & 0 & 0 & 0 \\
+    \end{pmatrix}
+\end{equation}
+The eigenpairs are
+\begin{align}
+    \lambda=1/2 & & \ket{10}\\
+    \lambda=1/2 & & \ket{01}\\
+    \lambda=1/2 - p & & \ket{\Phi^+}\\
+    \lambda=p - 1/2 & & \ket{\Phi^-}
+\end{align}
+For $1/2<p\le 1$, $1/2 - p<0$ and for $0\le p < 1/2$, $p-1/2 < 0$. Therefore, $\rho^{\top_2}$ is not positive semi-definite, entangled, unless $p=1/2$. For $p=1/2$, $\rho=\frac{1}{2}\ket{0}\bra{0}\otimes\ket{1}\bra{1}+\frac{1}{2}\ket{1}\bra{1}\otimes\ket{0}\bra{0}$, it is separable.
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
